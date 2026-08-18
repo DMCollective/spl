@@ -390,6 +390,11 @@ section{padding:clamp(72px,8.5vw,140px) 0}
 .faq summary:focus-visible{outline:3px solid var(--red);outline-offset:3px}
 .faq p{padding:0 44px 26px 0;font-size:16px;max-width:66ch}
 
+/* ── Reviews embed (Elfsight) ─────────────────────── */
+.reviews-embed{min-height:420px}          /* reserved space — keeps CLS at 0 while the widget loads */
+.feed-embed{min-height:560px}
+.elf-fallback[hidden]{display:none}
+
 /* ── Quote block ──────────────────────────────────── */
 .quote-block{max-width:920px;margin-inline:auto;text-align:center}
 blockquote{font-family:var(--display);font-size:clamp(28px,3.6vw,52px);line-height:1.06;
@@ -714,7 +719,11 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
       <h2 class="display" style="max-width:15ch">Three hundred and sixty-seven cars.</h2>
       <p class="lede" style="text-align:center">Protection and performance, every one tagged by make, model, and service &mdash; so you can find yours before you call us.</p>
     </div>
-    <div class="work-grid rv">
+    <div class="feed-embed rv">
+      <!-- Elfsight Instagram Feed | Untitled Instagram Feed -->
+      <div class="elfsight-app-7e4ed36a-f06b-4f8e-8ff5-1ae584fce646" data-elfsight-app-lazy></div>
+
+    <div class="work-grid elf-fallback" hidden>
       <a href="#" class="wide media">
         <img src="https://speedprojectslab.com/wp-content/uploads/sb-instagram-feed-images/771808398_18385871503163097_7429803433850863204_nlow.webp" alt="A 2010 Lamborghini Gallardo after full vehicle paint protection film, lowering springs and spacers" loading="lazy">
         <span class="scrim"></span><span class="w-meta"><b>Lamborghini Gallardo</b><small>Full PPF &middot; Springs &middot; Spacers</small></span>
@@ -740,20 +749,38 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
         <span class="scrim"></span><span class="w-meta"><b>Unit 401</b><small>Richmond, BC</small></span>
       </a>
     </div>
+    </div>
+
     <div class="center" style="margin-top:clamp(40px,5vw,66px)">
       <a href="#" class="btn"><span>View the full archive</span></a>
     </div>
   </div>
 </section>
 
-<!-- ── Quote ────────────────────────────────────── -->
-<section class="tint">
+<!-- ── Reviews ──────────────────────────────────── -->
+<section class="tint" id="reviews">
   <div class="wrap">
-    <div class="quote-block rv">
-      <div class="stars" aria-label="Rated 5 out of 5">&starf;&starf;&starf;&starf;&starf;</div>
-      <blockquote>Recent work includes downpipe and tune install. SPL have competitive rates and continue to service any and all of my car enthusiast demands. AAA workmanship.</blockquote>
-      <cite>Client F.W. &middot; Metro Vancouver</cite>
-      <div style="margin-top:38px"><a href="#" class="q-link">Read all 267 reviews</a></div>
+    <div class="rv center stack" style="margin-bottom:clamp(34px,4vw,56px)">
+      <p class="eyebrow">Reviews</p>
+      <h2 class="display" style="max-width:18ch">267 reviews. 5.0 average.</h2>
+      <p class="lede" style="text-align:center">Pulled live from Google &mdash; not curated by us.</p>
+    </div>
+
+    <div class="reviews-embed rv">
+      <!-- Elfsight Google Reviews | SPL - Google Reviews -->
+      <div class="elfsight-app-4c878b60-2f7e-4f3f-b20a-1de9b4de1dd7" data-elfsight-app-lazy></div>
+
+      <!-- Shown only if the widget fails to render -->
+      <div class="quote-block elf-fallback" hidden>
+        <div class="stars" aria-label="Rated 5 out of 5">&starf;&starf;&starf;&starf;&starf;</div>
+        <blockquote>Recent work includes downpipe and tune install. SPL have competitive rates and continue to service any and all of my car enthusiast demands. AAA workmanship.</blockquote>
+        <cite>Client F.W. &middot; Metro Vancouver</cite>
+      </div>
+    </div>
+
+    <div class="center" style="margin-top:clamp(30px,3.4vw,48px)">
+      <a href="https://www.google.com/search?q=Speed+Projects+Laboratory+Richmond+BC+reviews"
+         class="q-link" target="_blank" rel="noopener">Read all 267 reviews on Google</a>
     </div>
   </div>
 </section>
@@ -892,12 +919,28 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
   </div>
 </footer>
 
+<!-- Elfsight platform — loaded once for all widgets on the page -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+
 <script>
 const hdr=document.getElementById('hdr');
 const solid=()=>hdr.classList.toggle('solid',hdr.dataset.always==='1'||scrollY>80);
 addEventListener('scroll',solid,{passive:true});solid();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -6% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+(()=>{
+  // Third-party widgets fail more often than people expect (CDN, ad blockers,
+  // corporate networks). If one hasn't rendered, show the static content instead
+  // of leaving a hole where the social proof should be.
+  document.querySelectorAll('[class^="elfsight-app-"]').forEach(host=>{
+    const fb = host.parentElement && host.parentElement.querySelector('.elf-fallback');
+    if(!fb) return;
+    setTimeout(()=>{
+      const rendered = host.children.length || host.shadowRoot || host.offsetHeight > 60;
+      if(!rendered){ fb.hidden = false; host.style.display = 'none'; }
+    }, 6000);
+  });
+})();
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('video').forEach(v=>{v.autoplay=false;v.pause()});}
 </script>
 
