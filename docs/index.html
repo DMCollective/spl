@@ -105,7 +105,8 @@ em{font-style:normal;color:var(--red)}
 .on-dark .btn::after,.division .btn::after,.fullcard .btn::after{background:#fff}
 .on-dark .btn:hover,.division .btn:hover,.fullcard .btn:hover{color:var(--ink)}
 .on-dark .btn-red{border-color:var(--red);color:#fff}
-.on-dark .btn-red:hover{color:#fff}
+.on-dark .btn-red::after,.division .btn-red::after,.fullcard .btn-red::after{background:var(--red-deep)}
+.on-dark .btn-red:hover,.division .btn-red:hover,.fullcard .btn-red:hover{color:#fff}
 .btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
 
 .q-link{
@@ -320,6 +321,7 @@ section{padding:clamp(72px,8.5vw,140px) 0}
 
 /* ── Dark band ────────────────────────────────────── */
 .band{position:relative;min-height:66vh;display:flex;align-items:center;overflow:hidden;
+  padding-block:clamp(64px,8vw,116px);   /* min-height is a floor, not a cap — copy must never spill past it */
   background:linear-gradient(120deg,#3A3F46,#1D2126 58%,#111316)}
 .band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   filter:brightness(.54) contrast(1.06) saturate(.88);z-index:0}
@@ -408,8 +410,8 @@ cite{display:block;margin-top:30px;font-family:var(--sans);font-style:normal;fon
   font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
 .stars{color:var(--red);letter-spacing:7px;font-size:14px;margin-bottom:26px}
 
-/* ── Enquiry ──────────────────────────────────────── */
-.enquiry .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,6vw,110px);align-items:start}
+/* ── Inquiry ──────────────────────────────────────── */
+.inquiry .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,6vw,110px);align-items:start}
 .meta-list{display:grid;gap:22px;margin-top:40px}
 .meta-list div{display:grid;gap:4px}
 .meta-list dt{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--red)}
@@ -480,7 +482,7 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
   .menu-btn{display:grid}
   .svc-row{grid-template-columns:1fr;gap:32px}
   .svc-row:nth-child(even) .svc-media{order:0}
-  .enquiry .wrap{grid-template-columns:1fr}
+  .inquiry .wrap{grid-template-columns:1fr}
   .work-grid{grid-template-columns:repeat(2,1fr)}
   .work-grid a.wide{grid-column:span 2}
   .divisions,.tiles,.packages,.fullcards{grid-template-columns:1fr 1fr}
@@ -517,6 +519,55 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
   .mbar a.p{background:var(--red);border-left-color:var(--red)}
   .mbar a:focus-visible{outline:3px solid #fff;outline-offset:-4px}
 }
+
+/* ════════════════════════════════════════════════
+   v6 — components for the PPF / Performance copy decks
+   ════════════════════════════════════════════════ */
+
+/* ── Comparison columns (PPF vs Ceramic vs Both) ─── */
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.comp{background:var(--paper);padding:clamp(26px,2.6vw,38px);display:flex;flex-direction:column;
+  border-top:3px solid var(--line)}
+.comp.both{background:var(--ink);border-top-color:var(--red)}
+.comp.both h3{color:#fff}
+.comp.both li,.comp.both p{color:var(--dim)}
+.comp.both li::before{background:var(--red-lift)}
+.comp:first-child{border-top-color:var(--red)}
+.comp:nth-child(2){border-top-color:var(--ink)}
+.comp h3{margin-bottom:20px}
+.comp ul{list-style:none;display:grid;gap:11px;margin:0;flex:1}
+.comp li{font-size:15px;padding-left:20px;position:relative;line-height:1.55}
+.comp li::before{content:'';position:absolute;left:0;top:.66em;width:10px;height:2px;background:var(--red)}
+.comp p{font-size:15px;line-height:1.65}
+
+/* ── Reasons / why-choose grid ─────────────────────── */
+.reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line)}
+.reason{background:var(--paper);padding:clamp(24px,2.4vw,34px)}
+.reason h4{font-family:var(--display);font-size:22px;font-weight:400;text-transform:uppercase;
+  color:var(--ink);margin-bottom:10px;line-height:1.05;letter-spacing:0}
+.reason p{font-size:14px;line-height:1.65}
+
+/* ── Makes / platforms list ────────────────────────── */
+.makes{columns:4;column-gap:clamp(24px,3vw,48px);list-style:none}
+.makes li{font-family:var(--display);font-size:clamp(18px,1.6vw,22px);text-transform:uppercase;
+  color:var(--ink);line-height:1.5;break-inside:avoid;border-bottom:1px solid var(--line-2);padding:6px 0}
+.on-dark .makes li{color:#fff;border-bottom-color:var(--line-d2)}
+
+/* ── Service-area list ─────────────────────────────── */
+.areas{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-top:24px}
+.areas li{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--body);padding:8px 14px;background:var(--paper-2);border-left:2px solid var(--red)}
+
+/* process must handle 4 or 5 steps */
+.process{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+
+@media(max-width:1080px){
+  .compare{grid-template-columns:1fr}
+  .makes{columns:3}
+}
+@media(max-width:640px){
+  .makes{columns:2}
+}
 </style>
 </head>
 <body>
@@ -541,18 +592,18 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
       <a href="performance.html">Performance</a>
       <a href="index.html#work">Our Work</a>
       <a href="index.html#studio">Studio</a>
-      <a href="index.html#enquire">Contact</a>
+      <a href="index.html#inquire">Contact</a>
     </nav>
     <div class="h-right">
       <a href="tel:+16043378728" class="h-phone">604 337 8728</a>
-      <a href="index.html#enquire" class="h-cta">Enquire</a>
+      <a href="index.html#inquire" class="h-cta">Inquire</a>
     </div>
   </div>
 </header>
 
 <nav class="mbar" aria-label="Quick actions">
   <a href="tel:+16043378728">Call</a>
-  <a href="index.html#enquire" class="p">Enquire</a>
+  <a href="index.html#inquire" class="p">Inquire</a>
 </nav>
 
 <!-- ── Hero ─────────────────────────────────────── -->
@@ -573,7 +624,7 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
     <p class="lede">Premium paint protection, detailing, performance and maintenance for drivers who expect more from their vehicles.</p>
     <p class="hero-kicker">Two specialized studios. One standard.</p>
     <div class="hero-actions">
-      <a href="#enquire" class="btn btn-red"><span>Request a Quote</span></a>
+      <a href="#inquire" class="btn btn-red"><span>Request a Quote</span></a>
       <a href="#work" class="btn"><span>Explore Our Work</span></a>
     </div>
   </div>
@@ -794,8 +845,8 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
   </div>
 </section>
 
-<!-- ── Enquiry ──────────────────────────────────── -->
-<section class="enquiry tint" id="enquire">
+<!-- ── Inquiry ──────────────────────────────────── -->
+<section class="inquiry tint" id="inquire">
   <div class="wrap">
     <div class="rv">
       <p class="eyebrow">Start your project</p>
@@ -835,8 +886,8 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
         </select>
       </div>
       <div class="f full"><label for="d">Anything else</label><textarea id="d" name="d" placeholder="New delivery, existing film, timeline&hellip;"></textarea></div>
-      <p class="consent">We'll only use this to answer your enquiry. No lists, no marketing.</p>
-      <div class="f full"><button type="submit" class="btn btn-red" style="justify-self:start"><span>Send Enquiry</span></button></div>
+      <p class="consent">We'll only use this to answer your inquiry. No lists, no marketing.</p>
+      <div class="f full"><button type="submit" class="btn btn-red" style="justify-self:start"><span>Send Inquiry</span></button></div>
       <p class="sent f full" hidden style="color:var(--red);font-size:11px;letter-spacing:.24em;text-transform:uppercase">Concept only &mdash; nothing submitted.</p>
     </form>
   </div>
@@ -916,7 +967,7 @@ footer p a{display:inline-block;padding:3px 0;min-height:24px}
           <li><a href="#">Financing</a></li>
           <li><a href="#">Careers</a></li>
           <li><a href="#">Blog</a></li>
-          <li><a href="index.html#enquire">Contact</a></li>
+          <li><a href="index.html#inquire">Contact</a></li>
         </ul>
       </div>
     </div>
